@@ -40,7 +40,18 @@ def main():
         # get user input
         user_input = raw_input()
         tokens = user_input.split(" ")
-        print tokens
+        #print tokens
+
+        # check for numbers
+        if tokens[1].isdigit() == False:
+            print "Error. Input again."
+            continue
+        elif tokens[2].isdigit() == False:
+            print "Error. Input again."
+            continue
+        else:
+            tokens[1] = int(tokens[1])
+            tokens[2] = int(tokens[2])
 
         # check length
         if check_length(tokens) == 2:
