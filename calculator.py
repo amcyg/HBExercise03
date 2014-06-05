@@ -11,7 +11,25 @@ def check_length(token_list):
     length = len(token_list)
     return length
 
+def two_count_digit_check(token_list):
+    if token_list[1].isdigit():
+        return True
+
+def three_count_digit_check(token_list):
+    if token_list[1].isdigit() and token_list[2].isdigit():
+        return True
+
+def two_count_int_convert(token_list):
+    token_list[1] = int(token_list[1])
+    return token_list[1]
+
+def three_count_int_convert(token_list):
+    token_list[1] = int(token_list[1])
+    token_list[2] = int(token_list[2])
+    return token_list[1], token_list[2]
+
 def two_count_functions(token_list):
+    # run two count functions        
     if token_list[0] == "square":
         print arithmetic.square(token_list[1])
     elif token_list[0] == "cube":
@@ -20,6 +38,7 @@ def two_count_functions(token_list):
         print "Two few functions. Input again."
 
 def three_count_functions(token_list):
+    # run three count functions       
     if token_list[0] == "+":
         print arithmetic.add(token_list[1], token_list[2])
     elif token_list[0] == "-":
@@ -35,6 +54,11 @@ def three_count_functions(token_list):
     else:
         print "Too many functions. Input again."
 
+def check_operations(operation):
+    opsList = ["+", "-", "*", "/", "pow", "mod", "square", "cube"]
+    if operation not in opsList:
+        return False
+
 def main():
     while True:
         # get user input
@@ -42,27 +66,31 @@ def main():
         tokens = user_input.split(" ")
         #print tokens
 
-        # check for numbers
-        if tokens[1].isdigit() == False:
-            print "Error. Input again."
-            continue
-        elif tokens[2].isdigit() == False:
-            print "Error. Input again."
-            continue
-        else:
-            tokens[1] = int(tokens[1])
-            tokens[2] = int(tokens[2])
-
-        # check length
-        if check_length(tokens) == 2:
-            two_count_functions(tokens)
-        elif check_length(tokens) == 3:
-            three_count_functions(tokens)
-        elif tokens[0] == "q":
+        # check for quit
+        if tokens[0] == "q":
             print "Bye! :)"
             break
+
+        # check for proper operations
+        if check_operations(tokens[0]) == False:
+            print "Error: not an operation. Try again."
+            continue
+
+        # check length, then check if digits
+        if check_length(tokens) == 2:
+            if two_count_digit_check(tokens) == True:
+                two_count_int_convert(tokens)
+                two_count_functions(tokens)
+            else: 
+                print "Error: input not digits."
+        elif check_length(tokens) == 3:
+            if three_count_digit_check(tokens) == True:
+                three_count_int_convert(tokens)
+                three_count_functions(tokens)
+            else:
+                print "Error: input not digits."
         else:
-            print "Error. Input again."
+            print "Error: wrong input length."
 
 
 if __name__ == '__main__':
